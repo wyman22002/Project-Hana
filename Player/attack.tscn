@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://bcoaqd5fa38eo"]
+
+[ext_resource type="Texture2D" uid="uid://dnp3x4ptj1rn" path="res://Obstacles/assets/fire-ball/fireball-1.png" id="1_2go8i"]
+[ext_resource type="Script" path="res://Player/attack.gd" id="1_gjhit"]
+[ext_resource type="Texture2D" uid="uid://caabqqah0p5iy" path="res://Obstacles/assets/fire-ball/fireball-2.png" id="2_klppr"]
+[ext_resource type="Texture2D" uid="uid://dlbn6vxuko27s" path="res://Obstacles/assets/fire-ball/fireball-3.png" id="3_tpgk6"]
+[ext_resource type="Texture2D" uid="uid://dsxprgo0ldxok" path="res://Obstacles/assets/fire-ball/fireball-4.png" id="4_7g7id"]
+[ext_resource type="Texture2D" uid="uid://cmhesiieasfg8" path="res://Obstacles/assets/fire-ball/fireball-5.png" id="5_lyw1d"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4vc3f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_2go8i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_klppr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_tpgk6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7g7id")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_lyw1d")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xxohe"]
+radius = 8.0
+
+[node name="Area2D" type="Area2D"]
+collision_layer = 9
+collision_mask = 9
+script = ExtResource("1_gjhit")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_4vc3f")
+autoplay = "default"
+frame = 3
+frame_progress = 0.813728
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 0)
+shape = SubResource("CircleShape2D_xxohe")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+autostart = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

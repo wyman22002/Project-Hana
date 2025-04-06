@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cj5c1y7pwevp4"]
+
+[ext_resource type="Script" path="res://Director gd/game_manager.gd" id="1_ci0jt"]
+[ext_resource type="PackedScene" uid="uid://c7qodh2xkwu4s" path="res://Menu/gui.tscn" id="2_3ifmv"]
+
+[node name="Game Manager" type="Node"]
+script = ExtResource("1_ci0jt")
+
+[node name="GUI" parent="." instance=ExtResource("2_3ifmv")]
+visible = false
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+volume_db = -5.0
+autoplay = true
+
+[node name="SFX" type="AudioStreamPlayer" parent="."]
+volume_db = -5.0

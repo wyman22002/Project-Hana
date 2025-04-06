@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://coan5kayqbldq"
+path="res://.godot/imported/fantasy Dragon.ogg-3cb9b9e064923a1d376d08885bb7b4d2.oggvorbisstr"
+
+[deps]
+
+source_file="res://Levels/assets/music/fantasy Dragon.ogg"
+dest_files=["res://.godot/imported/fantasy Dragon.ogg-3cb9b9e064923a1d376d08885bb7b4d2.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

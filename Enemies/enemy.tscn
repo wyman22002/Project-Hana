@@ -1,0 +1,91 @@
+[gd_scene load_steps=15 format=3 uid="uid://hkdaqvtanqcw"]
+
+[ext_resource type="Texture2D" uid="uid://btqmal7purkdf" path="res://Enemies/assets/slime/Slimer-Idle/slimer-idle1.png" id="1_6mdnv"]
+[ext_resource type="Script" path="res://Enemies/enemy.gd" id="1_d32eg"]
+[ext_resource type="Texture2D" uid="uid://bv1eem016jcvb" path="res://Enemies/assets/slime/Slimer-Idle/slimer-idle2.png" id="2_4fbmg"]
+[ext_resource type="Texture2D" uid="uid://dllf7gjvpftif" path="res://Enemies/assets/slime/Slimer-Idle/slimer-idle3.png" id="3_uc205"]
+[ext_resource type="Texture2D" uid="uid://cum7hlt2i0jn8" path="res://Enemies/assets/slime/Slimer-Idle/slimer-idle4.png" id="4_4ct1g"]
+[ext_resource type="Texture2D" uid="uid://bjuqvc5lrmwuf" path="res://Enemies/assets/slime/Slimer-Idle/slimer-idle5.png" id="5_dqk8k"]
+[ext_resource type="Texture2D" uid="uid://255ycul6ko1" path="res://Enemies/assets/slime/Slimer-Idle/slimer-idle6.png" id="6_0gn47"]
+[ext_resource type="Texture2D" uid="uid://hi4bvlls6k77" path="res://Enemies/assets/slime/Slimer-Idle/slimer-idle7.png" id="7_p26iy"]
+[ext_resource type="Texture2D" uid="uid://bmrxsr7mht2ei" path="res://Enemies/assets/slime/Slimer-Idle/slimer-idle8.png" id="8_c8aq2"]
+[ext_resource type="Script" path="res://Player/states/state_machine.gd" id="10_axka4"]
+[ext_resource type="Script" path="res://Player/states/EnemyMove.gd" id="11_2ywh4"]
+[ext_resource type="Script" path="res://Player/states/EnemyAttack.gd" id="12_8vipe"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nwley"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_6mdnv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_4fbmg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_uc205")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_4ct1g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_dqk8k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_0gn47")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_p26iy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_c8aq2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c6x2d"]
+radius = 9.05539
+
+[node name="Enemy" type="CharacterBody2D" groups=["Enemy"]]
+collision_layer = 9
+collision_mask = 9
+script = ExtResource("1_d32eg")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_nwley")
+autoplay = "default"
+frame = 2
+frame_progress = 0.652266
+
+[node name="RayCast Down" type="RayCast2D" parent="."]
+position = Vector2(0, 5)
+target_position = Vector2(0, 25)
+
+[node name="RayCast Out" type="RayCast2D" parent="."]
+position = Vector2(-8, 8)
+rotation = -1.59523
+target_position = Vector2(-0.56194, 22.9931)
+
+[node name="Area2D" type="Area2D" parent="." groups=["Enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 10)
+shape = SubResource("CircleShape2D_c6x2d")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("inital_state")]
+script = ExtResource("10_axka4")
+inital_state = NodePath("EnemyMove")
+
+[node name="EnemyMove" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy", "sprite", "ray_cast_down", "ray_cast_out")]
+script = ExtResource("11_2ywh4")
+enemy = NodePath("../..")
+sprite = NodePath("../../Sprite")
+ray_cast_down = NodePath("../../RayCast Down")
+ray_cast_out = NodePath("../../RayCast Out")
+
+[node name="EnemyAttack" type="Node" parent="StateMachine"]
+script = ExtResource("12_8vipe")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

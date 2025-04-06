@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://b6uyu04jelys2"]
+
+[ext_resource type="Texture2D" uid="uid://dnp3x4ptj1rn" path="res://Obstacles/assets/fire-ball/fireball-1.png" id="1_7j03q"]
+[ext_resource type="Texture2D" uid="uid://caabqqah0p5iy" path="res://Obstacles/assets/fire-ball/fireball-2.png" id="2_uyspk"]
+[ext_resource type="Texture2D" uid="uid://dlbn6vxuko27s" path="res://Obstacles/assets/fire-ball/fireball-3.png" id="3_k27ct"]
+[ext_resource type="Texture2D" uid="uid://dsxprgo0ldxok" path="res://Obstacles/assets/fire-ball/fireball-4.png" id="4_ceq70"]
+[ext_resource type="Texture2D" uid="uid://cmhesiieasfg8" path="res://Obstacles/assets/fire-ball/fireball-5.png" id="5_38d5s"]
+[ext_resource type="Script" path="res://Obstacles/fire_ball.gd" id="6_lo24s"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vs7co"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7j03q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_uyspk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_k27ct")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ceq70")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_38d5s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rtht2"]
+radius = 7.0
+height = 16.0
+
+[node name="Fire Ball" type="CharacterBody2D"]
+script = ExtResource("6_lo24s")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = -1.5708
+sprite_frames = SubResource("SpriteFrames_vs7co")
+autoplay = "default"
+frame = 3
+frame_progress = 0.302595
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -3)
+shape = SubResource("CapsuleShape2D_rtht2")
+debug_color = Color(1.99743e-06, 0.127627, 0.399212, 0.419608)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
